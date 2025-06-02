@@ -2,7 +2,6 @@ package com.example.suratkampus.controller;
 
 import com.example.suratkampus.model.Mahasiswa;
 import com.example.suratkampus.model.PengajuanSurat;
-import com.example.suratkampus.model.PengajuanSuratKeterangan;
 import com.example.suratkampus.model.StatusPengajuan;
 import com.example.suratkampus.model.User;
 import com.example.suratkampus.repository.PengajuanSuratRepository;
@@ -20,18 +19,6 @@ public class PengajuanController {
 
     @Autowired
     private PengajuanSuratRepository pengajuanRepo;
-
-    // Mahasiswa melihat daftar pengajuan miliknya
-    @GetMapping("/list")
-    public String listPengajuanMahasiswa(HttpSession session, Model model) {
-        User user = (User) session.getAttribute("user");
-        if (user == null || !"MAHASISWA".equalsIgnoreCase(user.getRole())) {
-            return "redirect:/login";
-        }
-        List<PengajuanSurat> list = pengajuanRepo.findByMahasiswaId(user.getId());
-        model.addAttribute("pengajuanList", list);
-        return "pengajuan_list_mahasiswa"; // file pengajuan_list_mahasiswa.html
-    }
 
     // Admin melihat semua pengajuan
     @GetMapping("/admin/list")

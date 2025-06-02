@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Daftar Pengajuan Surat</title>
+</head>
+<body>
+    <h2>Daftar Pengajuan Surat</h2>
+
+    <p>Selamat datang, <strong th:text="${user.nama}">Nama Mahasiswa</strong></p>
+
+    <a th:href="@{/mahasiswa/pengajuan/form}">+ Ajukan Surat Baru</a>
+    <br><br>
+
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Jenis Surat</th>
+                <th>Tanggal Pengajuan</th>
+                <th>Status</th>
+                <th>Alasan Reject</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="pengajuan, iterStat : ${daftarPengajuan}">
+                <td th:text="${iterStat.index + 1}">1</td>
+                <td th:text="${pengajuan.jenisSurat}">Surat Keterangan</td>
+                <td th:text="${#dates.format(pengajuan.tanggalPengajuan, 'dd-MM-yyyy')}">01-01-2025</td>
+                <td th:text="${pengajuan.status}">PENDING</td>
+                <td th:text="${pengajuan.alasanReject != null ? pengajuan.alasanReject : '-'}">-</td>
+                <td>
+                    <span th:if="${pengajuan.status.name() == 'PENDING'}">
+                        <a th:href="@{'/mahasiswa/pengajuan/edit/' + ${pengajuan.id}}">Edit</a> |
+                        <a th:href="@{'/mahasiswa/pengajuan/delete/' + ${pengajuan.id}}"
+                           onclick="return confirm('Yakin ingin menghapus pengajuan ini?')">Hapus</a>
+                    </span>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(daftarPengajuan)}">
+                <td colspan="6">Belum ada pengajuan.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <a th:href="@{/mahasiswa/dashboard}">← Kembali ke Dashboard</a> |
+    <a th:href="@{/logout}">Logout</a>
+</body>
+</html>

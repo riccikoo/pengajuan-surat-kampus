@@ -1,5 +1,6 @@
 package com.example.suratkampus.repository;
 
+import com.example.suratkampus.model.Mahasiswa;
 import com.example.suratkampus.model.PengajuanSurat;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -1,5 +1,6 @@
 package com.example.suratkampus.service;
 
+import com.example.suratkampus.model.Mahasiswa;
 import com.example.suratkampus.model.PengajuanSurat;
 import com.example.suratkampus.repository.PengajuanSuratRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class PengajuanService {
         return pengajuanRepository.findByMahasiswaId(mahasiswaId);
     }
 
+
     public PengajuanSurat save(PengajuanSurat pengajuan) {
         return pengajuanRepository.save(pengajuan);
     }
@@ -28,4 +30,9 @@ public class PengajuanService {
     public PengajuanSurat findById(Long id) {
         return pengajuanRepository.findById(id).orElse(null);
     }
+
+    public void deleteById(Long id) {
+        pengajuanRepository.deleteById(id);
+    }
+
 }

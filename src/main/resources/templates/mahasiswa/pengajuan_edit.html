@@ -1,0 +1,30 @@
+<!-- src/main/resources/templates/mahasiswa/pengajuan_edit.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Pengajuan Surat</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h2>Edit Pengajuan Surat</h2>
+
+    <form th:action="@{/mahasiswa/pengajuan/edit}" th:object="${pengajuan}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+
+        <div>
+            <label>Jenis Surat:</label>
+            <span th:text="*{jenisSurat}">-</span>
+        </div>
+
+        <div>
+            <label for="keperluan">Keperluan:</label>
+            <textarea th:field="*{keperluan}" id="keperluan" rows="4" cols="50" required></textarea>
+        </div>
+
+        <div>
+            <button type="submit">Update</button>
+            <a th:href="@{/mahasiswa/pengajuan/list}">Batal</a>
+        </div>
+    </form>
+</body>
+</html>

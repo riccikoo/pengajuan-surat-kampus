@@ -5,9 +5,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "pengajuan_surat")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "jenis_surat")
-public abstract class PengajuanSurat {
+public class PengajuanSurat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,8 +19,14 @@ public abstract class PengajuanSurat {
     @Enumerated(EnumType.STRING)
     private StatusPengajuan status;
 
+    @Enumerated(EnumType.STRING)
+    private JenisSurat jenisSurat;
+
     @Column(length = 500)
     private String alasanReject;
+
+    @Column(length = 255)
+    private String keperluan;
 
     // Getter Setter
     public Long getId() {
@@ -57,6 +61,14 @@ public abstract class PengajuanSurat {
         this.status = status;
     }
 
+    public JenisSurat getJenisSurat() {
+        return jenisSurat;
+    }
+
+    public void setJenisSurat(JenisSurat jenisSurat) {
+        this.jenisSurat = jenisSurat;
+    }
+
     public String getAlasanReject() {
         return alasanReject;
     }
@@ -65,8 +77,11 @@ public abstract class PengajuanSurat {
         this.alasanReject = alasanReject;
     }
 
-    public void setFilePath(String filePath) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setFilePath'");
+    public String getKeperluan() {
+        return keperluan;
     }
-}
+
+    public void setKeperluan(String keperluan) {
+        this.keperluan = keperluan;
+    }
+} 

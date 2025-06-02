@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Ajukan Surat</title></head>
+<body>
+<h2>Ajukan Surat</h2>
+<form th:action="@{/mahasiswa/pengajuan/save}" method="post">
+    <label>Jenis Surat:</label>
+    <select name="jenisSurat">
+        <option value="KETERANGAN_AKTIF">Surat Keterangan Aktif</option>
+        <option value="RISET">Surat Riset</option>
+        <option value="CUTI">Surat Cuti</option>
+    </select><br/>
+    <label>Keperluan:</label><input type="text" name="keperluan"/><br/>
+    <button type="submit">Ajukan</button>
+</form>
+</body>
+</html>

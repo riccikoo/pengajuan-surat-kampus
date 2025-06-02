@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Detail Pengajuan</title></head>
+<body>
+<h2>Detail Pengajuan</h2>
+<p><strong>Mahasiswa:</strong> [[${pengajuan.mahasiswa.nama}]]</p>
+<p><strong>Jenis Surat:</strong> [[${pengajuan.jenisSurat}]]</p>
+<p><strong>Status:</strong> [[${pengajuan.status}]]</p>
+
+<form th:action="@{/admin/pengajuan/upload/{id}(id=${pengajuan.id})}" method="post" enctype="multipart/form-data">
+    <label>Upload Surat (PDF):</label>
+    <input type="file" name="file" accept=".pdf"/><br/>
+    <button type="submit">Upload & Approve</button>
+</form>
+
+<form th:action="@{/admin/pengajuan/reject/{id}(id=${pengajuan.id})}" method="post">
+    <label>Alasan Penolakan:</label><br/>
+    <textarea name="alasanReject" rows="3" cols="40"></textarea><br/>
+    <button type="submit">Tolak Pengajuan</button>
+</form>
+
+<a th:href="@{/admin/pengajuan}">Kembali ke daftar</a>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dashboard Mahasiswa</title>
+</head>
+<body>
+    <h2>Selamat datang, [[${user.nama}]]!</h2>
+
+    <ul>
+        <li><a th:href="@{/mahasiswa/pengajuan/form}">Ajukan Surat Baru</a></li>
+        <li><a th:href="@{/mahasiswa/pengajuan/list}">Lihat Pengajuan Saya</a></li>
+        <li><a th:href="@{/logout}">Logout</a></li>
+    </ul>
+</body>
+</html>

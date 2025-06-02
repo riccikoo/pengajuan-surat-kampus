@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Daftar Pengajuan</title></head>
+<body>
+<h2>Pengajuan Saya</h2>
+<table border="1">
+    <tr>
+        <th>ID</th><th>Jenis</th><th>Status</th><th>Aksi</th>
+    </tr>
+    <tr th:each="pengajuan : ${pengajuans}">
+        <td th:text="${pengajuan.id}"></td>
+        <td th:text="${pengajuan.jenisSurat}"></td>
+        <td th:text="${pengajuan.status}"></td>
+        <td>
+            <a th:if="${pengajuan.status == 'APPROVED'}"
+               th:href="@{/mahasiswa/pengajuan/download/{id}(id=${pengajuan.id})}">Download</a>
+        </td>
+    </tr>
+</table>
+<a th:href="@{/mahasiswa/dashboard}">Kembali ke Dashboard</a>
+</body>
+</html>

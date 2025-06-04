@@ -1,51 +1,152 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="id">
 <head>
-    <meta charset="UTF-8">
-    <title>Daftar Pengajuan Surat</title>
+  <meta charset="UTF-8">
+  <title>Daftar Pengajuan Surat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --text-dark: #1d1d1f;
+      --text-light: #6e6e73;
+      --blue: #0071e3;
+      --gray-bg: #f5f5f7;
+      --border: #d2d2d7;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: white;
+      color: var(--text-dark);
+      padding: 2rem;
+    }
+
+    h2 {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .user-greeting {
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      color: var(--text-light);
+    }
+
+    .action-buttons {
+      margin-bottom: 1.5rem;
+    }
+
+    .action-buttons a {
+      display: inline-block;
+      background-color: var(--blue);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background-color 0.2s;
+    }
+
+    .action-buttons a:hover {
+      background-color: #005bb5;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+
+    table th, table td {
+      border: 1px solid var(--border);
+      padding: 0.75rem;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    table th {
+      background-color: #f0f0f0;
+      font-weight: 600;
+    }
+
+    .aksi a {
+      color: var(--blue);
+      text-decoration: none;
+      margin-right: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .aksi a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-links {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+
+    .footer-links a {
+      color: var(--blue);
+      text-decoration: none;
+      margin: 0 0.5rem;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-    <h2>Daftar Pengajuan Surat</h2>
 
-    <p>Selamat datang, <strong th:text="${user.nama}">Nama Mahasiswa</strong></p>
+  <h2>Daftar Pengajuan Surat</h2>
 
+  <p class="user-greeting">Selamat datang, <strong th:text="${user.nama}">Nama Mahasiswa</strong></p>
+
+  <div class="action-buttons">
     <a th:href="@{/mahasiswa/pengajuan/form}">+ Ajukan Surat Baru</a>
-    <br><br>
+  </div>
 
-    <table border="1" cellpadding="8" cellspacing="0">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Jenis Surat</th>
-                <th>Tanggal Pengajuan</th>
-                <th>Status</th>
-                <th>Alasan Reject</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="pengajuan, iterStat : ${daftarPengajuan}">
-                <td th:text="${iterStat.index + 1}">1</td>
-                <td th:text="${pengajuan.jenisSurat}">Surat Keterangan</td>
-                <td th:text="${#dates.format(pengajuan.tanggalPengajuan, 'dd-MM-yyyy')}">01-01-2025</td>
-                <td th:text="${pengajuan.status}">PENDING</td>
-                <td th:text="${pengajuan.alasanReject != null ? pengajuan.alasanReject : '-'}">-</td>
-                <td>
-                    <span th:if="${pengajuan.status.name() == 'PENDING'}">
-                        <a th:href="@{'/mahasiswa/pengajuan/edit/' + ${pengajuan.id}}">Edit</a> |
-                        <a th:href="@{'/mahasiswa/pengajuan/delete/' + ${pengajuan.id}}"
-                           onclick="return confirm('Yakin ingin menghapus pengajuan ini?')">Hapus</a>
-                    </span>
-                </td>
-            </tr>
-            <tr th:if="${#lists.isEmpty(daftarPengajuan)}">
-                <td colspan="6">Belum ada pengajuan.</td>
-            </tr>
-        </tbody>
-    </table>
+  <table>
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Jenis Surat</th>
+        <th>Tanggal Pengajuan</th>
+        <th>Status</th>
+        <th>Alasan Reject</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="pengajuan, iterStat : ${daftarPengajuan}">
+        <td th:text="${iterStat.index + 1}">1</td>
+        <td th:text="${pengajuan.jenisSurat}">Surat Keterangan</td>
+        <td th:text="${#dates.format(pengajuan.tanggalPengajuan, 'dd-MM-yyyy')}">01-01-2025</td>
+        <td th:text="${pengajuan.status}">PENDING</td>
+        <td th:text="${pengajuan.alasanReject != null ? pengajuan.alasanReject : '-'}">-</td>
+        <td class="aksi" th:if="${pengajuan.status.name() == 'PENDING'}">
+          <a th:href="@{'/mahasiswa/pengajuan/edit/' + ${pengajuan.id}}">Edit</a>
+          <a th:href="@{'/mahasiswa/pengajuan/delete/' + ${pengajuan.id}}"
+             onclick="return confirm('Yakin ingin menghapus pengajuan ini?')">Hapus</a>
+        </td>
+        <td th:if="${pengajuan.status.name() != 'PENDING'}">-</td>
+      </tr>
+      <tr th:if="${#lists.isEmpty(daftarPengajuan)}">
+        <td colspan="6" style="text-align:center;">Belum ada pengajuan.</td>
+      </tr>
+    </tbody>
+  </table>
 
-    <br>
+  <div class="footer-links">
     <a th:href="@{/mahasiswa/dashboard}">← Kembali ke Dashboard</a> |
     <a th:href="@{/logout}">Logout</a>
+  </div>
+
 </body>
 </html>

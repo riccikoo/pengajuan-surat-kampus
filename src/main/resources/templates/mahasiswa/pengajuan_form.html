@@ -1,17 +1,118 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head><title>Ajukan Surat</title></head>
+<html xmlns:th="http://www.thymeleaf.org" lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Ajukan Surat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --text-dark: #1d1d1f;
+      --text-light: #6e6e73;
+      --blue: #0071e3;
+      --border: #d2d2d7;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: white;
+      color: var(--text-dark);
+      padding: 2rem;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    form {
+      max-width: 480px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    label {
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+      display: block;
+    }
+
+    input[type="text"], select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      background-color: #f9f9f9;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus, select:focus {
+      outline: none;
+      border-color: var(--blue);
+      background-color: white;
+    }
+
+    button[type="submit"] {
+      background-color: var(--blue);
+      color: white;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #005bb5;
+    }
+
+    .back-link {
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    .back-link a {
+      color: var(--blue);
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
 <body>
-<h2>Ajukan Surat</h2>
-<form th:action="@{/mahasiswa/pengajuan/save}" method="post">
-    <label>Jenis Surat:</label>
-    <select name="jenisSurat">
+  <h2>Ajukan Surat</h2>
+  <form th:action="@{/mahasiswa/pengajuan/save}" method="post">
+    <div>
+      <label for="jenisSurat">Jenis Surat</label>
+      <select name="jenisSurat" id="jenisSurat" required>
         <option value="KETERANGAN_AKTIF">Surat Keterangan Aktif</option>
         <option value="RISET">Surat Riset</option>
         <option value="CUTI">Surat Cuti</option>
-    </select><br/>
-    <label>Keperluan:</label><input type="text" name="keperluan"/><br/>
+      </select>
+    </div>
+
+    <div>
+      <label for="keperluan">Keperluan</label>
+      <input type="text" id="keperluan" name="keperluan" required />
+    </div>
+
     <button type="submit">Ajukan</button>
-</form>
+  </form>
+
+  <div class="back-link">
+    <a th:href="@{/mahasiswa/dashboard}">← Kembali ke Dashboard</a>
+  </div>
 </body>
 </html>

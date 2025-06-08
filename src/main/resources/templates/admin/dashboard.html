@@ -64,14 +64,25 @@
 
   <h2>Selamat datang, Admin!</h2>
 
+  <section>
+    <h3>Statistik Pengajuan Surat</h3>
+    <ul>
+      <li>Total Pengajuan: <strong th:text="${total}">0</strong></li>
+      <li>Pengajuan Pending: <strong th:text="${pending}">0</strong></li>
+      <li>Pengajuan Disetujui: <strong th:text="${approved}">0</strong></li>
+      <li>Pengajuan Ditolak: <strong th:text="${rejected}">0</strong></li>
+    </ul>
+  </section>
+
   <div class="nav-links">
-    <a th:href="@{/admin/pengajuan}">Lihat Semua Pengajuan</a>
+    <a th:href="@{/admin/pengajuan/list}">Lihat Semua Pengajuan</a>
     <a th:href="@{/logout}">Logout</a>
   </div>
 
   <footer>
     &copy; 2025 Universitas XYZ. Semua hak dilindungi.
   </footer>
+
 
 </body>
 </html>

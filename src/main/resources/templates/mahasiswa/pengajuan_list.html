@@ -2,9 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Form Pengajuan Surat</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <title>Daftar Pengajuan Surat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     :root {
       --text-dark: #1d1d1f;
@@ -15,12 +14,9 @@
       --white: #ffffff;
       --gray-light: #f5f5f7;
       --border: #e0e0e0;
-      --border-radius: 12px;
+      --border-radius: 16px;
       --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
       --transition: all 0.3s ease;
-      --success: #28a745;
-      --danger: #dc3545;
-      --warning: #ffc107;
     }
 
     * {
@@ -31,278 +27,278 @@
     }
 
     body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
       background: linear-gradient(to right top, #e6f0ff, #ffffff);
       color: var(--text-dark);
-      min-height: 100vh;
-      padding: 2rem;
+      line-height: 1.6;
     }
 
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
+    header {
       background-color: var(--white);
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-      overflow: hidden;
-    }
-
-    .header {
-      background-color: var(--blue);
-      color: white;
-      padding: 1.5rem 2rem;
+      padding: 1.25rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      z-index: 10;
     }
 
     .header-title {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       font-weight: 600;
+      color: var(--blue);
     }
 
-    .back-btn {
-      color: white;
-      text-decoration: none;
+    .logout-btn {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      font-weight: 500;
-    }
-
-    .back-btn:hover {
-      text-decoration: underline;
-    }
-
-    .content {
-      padding: 2rem;
-    }
-
-    .user-info {
-      margin-bottom: 1.5rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .user-name {
-      font-weight: 600;
-      font-size: 1.1rem;
-    }
-
-    .user-nim {
-      color: var(--text-light);
-      font-size: 0.9rem;
-    }
-
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .form-label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-    }
-
-    .form-control {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      border: 1px solid var(--border);
-      border-radius: var(--border-radius);
-      font-size: 1rem;
-      transition: var(--transition);
-    }
-
-    .form-control:focus {
-      outline: none;
-      border-color: var(--blue);
-      box-shadow: 0 0 0 3px var(--blue-light);
-    }
-
-    select.form-control {
-      appearance: none;
-      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-      background-repeat: no-repeat;
-      background-position: right 1rem center;
-      background-size: 1em;
-    }
-
-    textarea.form-control {
-      min-height: 120px;
-      resize: vertical;
-    }
-
-    .file-upload {
-      position: relative;
-      overflow: hidden;
-      display: inline-block;
-      width: 100%;
-    }
-
-    .file-upload-btn {
-      border: 1px dashed var(--border);
-      border-radius: var(--border-radius);
-      padding: 2rem;
-      text-align: center;
-      cursor: pointer;
-      transition: var(--transition);
-      width: 100%;
-    }
-
-    .file-upload-btn:hover {
-      border-color: var(--blue);
-      background-color: var(--blue-light);
-    }
-
-    .file-upload-input {
-      position: absolute;
-      left: 0;
-      top: 0;
-      opacity: 0;
-      width: 100%;
-      height: 100%;
-      cursor: pointer;
-    }
-
-    .file-upload-icon {
-      font-size: 2rem;
-      color: var(--blue);
-      margin-bottom: 0.5rem;
-    }
-
-    .file-upload-text {
-      color: var(--text-light);
-    }
-
-    .file-name {
-      margin-top: 0.5rem;
-      font-size: 0.9rem;
-      color: var(--blue);
-      display: none;
-    }
-
-    .btn-submit {
       background-color: var(--blue);
       color: white;
-      border: none;
-      padding: 0.75rem 1.5rem;
+      padding: 0.6rem 1rem;
       border-radius: var(--border-radius);
-      font-size: 1rem;
+      text-decoration: none;
       font-weight: 500;
-      cursor: pointer;
       transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
     }
 
-    .btn-submit:hover {
+    .logout-btn:hover {
       background-color: var(--blue-dark);
       transform: translateY(-2px);
     }
 
-    .footer {
-      text-align: center;
-      margin-top: 2rem;
+    nav {
+      background-color: var(--white);
+      padding: 1rem 2rem;
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-dark);
+      font-weight: 500;
+      transition: var(--transition);
+      padding: 0.75rem 1rem;
+      border-radius: var(--border-radius);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    nav a:hover {
+      color: var(--blue);
+      background-color: var(--blue-light);
+    }
+
+    main {
+      flex: 1;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .welcome-section {
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      box-shadow: var(--box-shadow);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      margin-bottom: 2rem;
+      transition: var(--transition);
+    }
+
+    .welcome-title {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .welcome-subtitle {
       color: var(--text-light);
+    }
+
+    .action-buttons {
+      margin-bottom: 1.5rem;
+    }
+
+    .action-buttons a {
+      background-color: var(--blue);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .action-buttons a:hover {
+      background-color: var(--blue-dark);
+      transform: translateY(-2px);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    table th, table td {
+      border: 1px solid var(--border);
+      padding: 0.75rem;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    table th {
+      background-color: var(--blue-light);
+      font-weight: 600;
+    }
+
+    .aksi a {
+      color: var(--blue);
+      text-decoration: none;
+      margin-right: 0.5rem;
       font-size: 0.9rem;
     }
 
-    /* Responsive */
+    .aksi a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.875rem;
+      color: var(--text-light);
+      background-color: var(--gray-light);
+      border-top: 1px solid var(--border);
+      margin-top: auto;
+    }
+
+    footer a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
     @media (max-width: 768px) {
-      body {
-        padding: 1rem;
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
       }
-      
-      .content {
+
+      nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      main {
+        padding: 1.5rem;
+      }
+
+      .welcome-section {
         padding: 1.5rem;
       }
     }
 
     @media (max-width: 480px) {
-      .header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
+      .logout-btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .header-title {
+        font-size: 1.4rem;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <div class="header">
-      <h1 class="header-title">Form Pengajuan Surat</h1>
-      <a th:href="@{/mahasiswa/pengajuan/list}" class="back-btn">
-        <i class="fas fa-arrow-left"></i> Kembali
-      </a>
-    </div>
+<header>
+  <div class="header-title">Sistem Pengajuan Surat</div>
+  <a th:href="@{/logout}" class="logout-btn">Logout</a>
+</header>
 
-    <div class="content">
-      <div class="user-info">
-        <div class="user-name" th:text="${user.nama}">Nama Mahasiswa</div>
-        <div class="user-nim" th:text="${user.nim}">NIM Mahasiswa</div>
-      </div>
+<nav>
+  <ul>
+    <li><a th:href="@{/mahasiswa/dashboard}">🏠 Dashboard</a></li>
+    <li><a th:href="@{/mahasiswa/pengajuan/form}">📝 Ajukan Surat Baru</a></li>
+    <li><a th:href="@{/mahasiswa/pengajuan}">📄 Daftar Pengajuan</a></li>
+  </ul>
+</nav>
 
-      <form th:action="@{/mahasiswa/pengajuan/save}" method="post" enctype="multipart/form-data">
-        <div class="form-group">
-          <label for="jenisSurat" class="form-label">Jenis Surat</label>
-          <select id="jenisSurat" name="jenisSurat" class="form-control" required>
-            <option value="">Pilih Jenis Surat</option>
-            <option value="Surat Keterangan">Surat Keterangan</option>
-            <option value="Surat Permohonan">Surat Permohonan</option>
-            <option value="Surat Rekomendasi">Surat Rekomendasi</option>
-            <option value="Surat Izin Penelitian">Surat Izin Penelitian</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="tujuan" class="form-label">Tujuan Surat</label>
-          <input type="text" id="tujuan" name="tujuan" class="form-control" placeholder="Contoh: PT. Contoh Perusahaan" required>
-        </div>
-
-        <div class="form-group">
-          <label for="keterangan" class="form-label">Keterangan Tambahan</label>
-          <textarea id="keterangan" name="keterangan" class="form-control" placeholder="Jelaskan keperluan surat ini"></textarea>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Lampiran Dokumen</label>
-          <div class="file-upload">
-            <div class="file-upload-btn">
-              <div class="file-upload-icon">
-                <i class="fas fa-cloud-upload-alt"></i>
-              </div>
-              <div class="file-upload-text">Klik untuk mengunggah file atau tarik file ke sini</div>
-              <div class="file-name" id="fileName">Tidak ada file dipilih</div>
-            </div>
-            <input type="file" id="fileUpload" name="fileUpload" class="file-upload-input" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
-          </div>
-          <small class="text-muted">Format file: PDF, DOC, DOCX, JPG, PNG (Maks. 5MB)</small>
-        </div>
-
-        <button type="submit" class="btn-submit">
-          <i class="fas fa-paper-plane"></i> Ajukan Surat
-        </button>
-      </form>
-    </div>
+<main>
+  <div class="welcome-section">
+    <div class="welcome-title">Daftar Pengajuan Surat</div>
+    <div class="welcome-subtitle">Selamat datang, <strong th:text="${user.nama}">Nama Mahasiswa</strong></div>
   </div>
 
-  <div class="footer">
-    &copy; 2025 Sistem Pengajuan Surat. All rights reserved.
+  <div class="action-buttons">
+    <a th:href="@{/mahasiswa/pengajuan/form}">+ Ajukan Surat Baru</a>
   </div>
 
-  <script>
-    // Menampilkan nama file yang dipilih
-    document.getElementById('fileUpload').addEventListener('change', function(e) {
-      const fileName = document.getElementById('fileName');
-      if (this.files.length > 0) {
-        fileName.textContent = this.files[0].name;
-        fileName.style.display = 'block';
-      } else {
-        fileName.style.display = 'none';
-      }
-    });
-  </script>
+  <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Jenis Surat</th>
+          <th>Tanggal Pengajuan</th>
+          <th>Status</th>
+          <th>Alasan Reject</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="pengajuan, iterStat : ${daftarPengajuan}">
+          <td th:text="${iterStat.index + 1}">1</td>
+          <td th:text="${pengajuan.jenisSurat}">Surat Keterangan</td>
+          <td th:text="${#dates.format(pengajuan.tanggalPengajuan, 'dd-MM-yyyy')}">01-01-2025</td>
+          <td th:text="${pengajuan.status}">PENDING</td>
+          <td th:text="${pengajuan.alasanReject != null ? pengajuan.alasanReject : '-'}">-</td>
+          <td class="aksi">
+            <span th:if="${pengajuan.status.name() == 'PENDING'}">
+              <a th:href="@{'/mahasiswa/pengajuan/edit/' + ${pengajuan.id}}">Edit</a>
+              <a th:href="@{'/mahasiswa/pengajuan/delete/' + ${pengajuan.id}}" onclick="return confirm('Yakin ingin menghapus pengajuan ini?')">Hapus</a>
+            </span>
+            <span th:if="${pengajuan.status.name() == 'APPROVED'}">
+              <a th:href="@{'/files/' + ${pengajuan.fileSurat}}" target="_blank">Unduh Surat</a>
+            </span>
+            <span th:if="${pengajuan.status.name() == 'REJECTED'}">-</span>
+          </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(daftarPengajuan)}">
+          <td colspan="6" style="text-align:center;">Belum ada pengajuan.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<footer>
+  <a th:href="@{/mahasiswa/dashboard}">← Kembali ke Dashboard</a>
+</footer>
 
 </body>
 </html>

@@ -28,7 +28,10 @@ public class PengajuanSurat {
     @Column(length = 255)
     private String keperluan;
 
-    // Getter Setter
+    @Column(length = 255)
+    private String fileSurat; // 👉 Tambahan: nama file hasil upload (PDF)
+
+    // Getter & Setter
     public Long getId() {
         return id;
     }
@@ -84,4 +87,12 @@ public class PengajuanSurat {
     public void setKeperluan(String keperluan) {
         this.keperluan = keperluan;
     }
-} 
+
+    public String getFileSurat() {
+        return fileSurat;
+    }
+
+    public void setFileSurat(String fileSurat) {
+        this.fileSurat = fileSurat;
+    }
+}

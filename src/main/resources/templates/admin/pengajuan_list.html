@@ -1,20 +1,38 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head><title>Semua Pengajuan</title></head>
+<html xmlns:th="http://www.thymeleaf.org" lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Daftar Pengajuan Surat</title>
+</head>
 <body>
-<h2>Daftar Pengajuan</h2>
-<table border="1">
-    <tr>
-        <th>ID</th><th>Mahasiswa</th><th>Jenis</th><th>Status</th><th>Aksi</th>
-    </tr>
-    <tr th:each="pengajuan : ${pengajuans}">
-        <td th:text="${pengajuan.id}"></td>
-        <td th:text="${pengajuan.mahasiswa.nama}"></td>
-        <td th:text="${pengajuan.jenisSurat}"></td>
-        <td th:text="${pengajuan.status}"></td>
-        <td><a th:href="@{/admin/pengajuan/{id}(id=${pengajuan.id})}">Lihat Detail</a></td>
-    </tr>
-</table>
-<a th:href="@{/admin/dashboard}">Kembali ke Dashboard</a>
+    <h2>Daftar Pengajuan Surat</h2>
+
+    <table border="1" cellpadding="5" cellspacing="0">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nama Mahasiswa</th>
+                <th>Jenis Surat</th>
+                <th>Status</th>
+                <th>Keperluan</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="pengajuan : ${pengajuanList}">
+                <td th:text="${pengajuan.id}">1</td>
+                <td th:text="${pengajuan.mahasiswa.nama}">Nama Mahasiswa</td>
+                <td th:text="${pengajuan.jenisSurat}">Jenis</td>
+                <td th:text="${pengajuan.status}">Status</td>
+                <td th:text="${pengajuan.keperluan}">Keperluan</td>
+                <td>
+                    <a th:href="@{/admin/pengajuan/detail/{id}(id=${pengajuan.id})}">Lihat Detail</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <a th:href="@{/admin/dashboard}">Kembali ke Dashboard</a>
 </body>
 </html>

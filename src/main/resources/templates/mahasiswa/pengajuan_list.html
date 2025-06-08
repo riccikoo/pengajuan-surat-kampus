@@ -130,12 +130,17 @@
         <td th:text="${#dates.format(pengajuan.tanggalPengajuan, 'dd-MM-yyyy')}">01-01-2025</td>
         <td th:text="${pengajuan.status}">PENDING</td>
         <td th:text="${pengajuan.alasanReject != null ? pengajuan.alasanReject : '-'}">-</td>
-        <td class="aksi" th:if="${pengajuan.status.name() == 'PENDING'}">
-          <a th:href="@{'/mahasiswa/pengajuan/edit/' + ${pengajuan.id}}">Edit</a>
-          <a th:href="@{'/mahasiswa/pengajuan/delete/' + ${pengajuan.id}}"
-             onclick="return confirm('Yakin ingin menghapus pengajuan ini?')">Hapus</a>
+        <td class="aksi">
+          <span th:if="${pengajuan.status.name() == 'PENDING'}">
+            <a th:href="@{'/mahasiswa/pengajuan/edit/' + ${pengajuan.id}}">Edit</a>
+            <a th:href="@{'/mahasiswa/pengajuan/delete/' + ${pengajuan.id}}"
+              onclick="return confirm('Yakin ingin menghapus pengajuan ini?')">Hapus</a>
+          </span>
+          <span th:if="${pengajuan.status.name() == 'APPROVED'}">
+            <a th:href="@{'/files/' + ${pengajuan.fileSurat}}" target="_blank">Unduh Surat</a>
+          </span>
+          <span th:if="${pengajuan.status.name() == 'REJECTED'}">-</span>
         </td>
-        <td th:if="${pengajuan.status.name() != 'PENDING'}">-</td>
       </tr>
       <tr th:if="${#lists.isEmpty(daftarPengajuan)}">
         <td colspan="6" style="text-align:center;">Belum ada pengajuan.</td>

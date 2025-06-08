@@ -1,24 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Detail Pengajuan</title></head>
+<head>
+    <title>Detail Pengajuan</title>
+</head>
 <body>
 <h2>Detail Pengajuan</h2>
+
 <p><strong>Mahasiswa:</strong> [[${pengajuan.mahasiswa.nama}]]</p>
 <p><strong>Jenis Surat:</strong> [[${pengajuan.jenisSurat}]]</p>
 <p><strong>Status:</strong> [[${pengajuan.status}]]</p>
 
-<form th:action="@{/admin/pengajuan/upload/{id}(id=${pengajuan.id})}" method="post" enctype="multipart/form-data">
-    <label>Upload Surat (PDF):</label>
-    <input type="file" name="file" accept=".pdf"/><br/>
-    <button type="submit">Upload & Approve</button>
-</form>
+<div th:if="${pengajuan.status.name() == 'PENDING'}">
+    <form th:action="@{/admin/pengajuan/upload/{id}(id=${pengajuan.id})}" method="post" enctype="multipart/form-data">
+        <label>Upload Surat (PDF):</label>
+        <input type="file" name="file" accept=".pdf" required/><br/>
+        <button type="submit">Upload & Approve</button>
+    </form>
 
-<form th:action="@{/admin/pengajuan/reject/{id}(id=${pengajuan.id})}" method="post">
-    <label>Alasan Penolakan:</label><br/>
-    <textarea name="alasanReject" rows="3" cols="40"></textarea><br/>
-    <button type="submit">Tolak Pengajuan</button>
-</form>
+    <hr/>
 
-<a th:href="@{/admin/pengajuan}">Kembali ke daftar</a>
+    <form th:action="@{/admin/pengajuan/reject/{id}(id=${pengajuan.id})}" method="post">
+        <label>Alasan Penolakan:</label><br/>
+        <textarea name="alasanReject" rows="3" cols="40" required></textarea><br/>
+        <button type="submit">Tolak Pengajuan</button>
+    </form>
+</div>
+
+<div th:if="${pengajuan.status.name() == 'APPROVED'}">
+    <p><strong>Surat Disetujui:</strong></p>
+    <!-- Tampilkan langsung PDF di dalam halaman -->
+    <iframe th:src="@{'/files/' + ${pengajuan.fileSurat}}" width="100%" height="600px" style="border:1px solid #ccc;">
+        Browser tidak mendukung PDF.
+    </iframe>
+    <p><a th:href="@{'/files/' + ${pengajuan.fileSurat}}" target="_blank">Unduh Surat</a></p>
+</div>
+
+<div th:if="${pengajuan.status.name() == 'REJECTED'}">
+    <p><strong>Ditolak karena:</strong> [[${pengajuan.alasanReject}]]</p>
+</div>
+
+<a th:href="@{/admin/pengajuan/list}">Kembali ke daftar</a>
 </body>
 </html>

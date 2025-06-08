@@ -4,12 +4,23 @@
   <meta charset="UTF-8">
   <title>Dashboard Admin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     :root {
       --text-dark: #1d1d1f;
       --text-light: #6e6e73;
       --blue: #0071e3;
-      --border: #d2d2d7;
+      --blue-dark: #005bb5;
+      --blue-light: #e6f1fc;
+      --white: #ffffff;
+      --gray-light: #f5f5f7;
+      --success: #4caf50;
+      --warning: #ff9800;
+      --error: #f44336;
+      --border: #e0e0e0;
+      --border-radius: 12px;
+      --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
     }
 
     * {
@@ -20,69 +31,407 @@
     }
 
     body {
-      background-color: white;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: var(--white);
       color: var(--text-dark);
-      padding: 2rem;
+      line-height: 1.6;
     }
 
-    h2 {
+    header {
+      background-color: var(--white);
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .header-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--blue);
+    }
+
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: var(--blue);
+      color: white;
+      padding: 0.6rem 1rem;
+      border-radius: var(--border-radius);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .logout-btn:hover {
+      background-color: var(--blue-dark);
+      transform: translateY(-2px);
+    }
+
+    nav {
+      background-color: var(--white);
+      padding: 1rem 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-dark);
+      font-weight: 500;
+      transition: var(--transition);
+      padding: 0.75rem 1rem;
+      border-radius: var(--border-radius);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    nav a:hover {
+      color: var(--blue);
+      background-color: var(--blue-light);
+    }
+
+    nav a i {
+      font-size: 1.1rem;
+    }
+
+    main {
+      flex: 1;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .welcome-section {
+      margin-bottom: 2.5rem;
+    }
+
+    .welcome-title {
       font-size: 1.75rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-dark);
+    }
+
+    .welcome-subtitle {
+      color: var(--text-light);
+      font-weight: 400;
+    }
+
+    .stats-section {
+      margin-bottom: 3rem;
+    }
+
+    .stats-title {
+      font-size: 1.25rem;
       margin-bottom: 1.5rem;
+      color: var(--text-dark);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+      border-left: 4px solid var(--blue);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .stat-label {
+      font-size: 0.95rem;
+      color: var(--text-light);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--blue);
     }
 
     .nav-links {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      max-width: 300px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
     }
 
-    .nav-links a {
+    .nav-link {
       background-color: var(--blue);
       color: white;
-      padding: 0.75rem 1rem;
-      border-radius: 8px;
+      padding: 1rem;
+      border-radius: var(--border-radius);
       text-decoration: none;
       text-align: center;
       font-weight: 500;
-      transition: background-color 0.2s;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
     }
 
-    .nav-links a:hover {
-      background-color: #005bb5;
+    .nav-link:hover {
+      background-color: var(--blue-dark);
+      transform: translateY(-2px);
+    }
+
+    .pending-requests {
+      margin-top: 3rem;
+    }
+
+    .pending-title {
+      font-size: 1.25rem;
+      margin-bottom: 1.5rem;
+      color: var(--text-dark);
+    }
+
+    .pending-list {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      box-shadow: var(--box-shadow);
+    }
+
+    .pending-item {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .pending-item:last-child {
+      border-bottom: none;
+    }
+
+    .pending-info {
+      flex: 1;
+    }
+
+    .pending-name {
+      font-weight: 500;
+    }
+
+    .pending-type {
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+
+    .pending-date {
+      font-size: 0.85rem;
+      color: var(--text-light);
+    }
+
+    .pending-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .action-btn {
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+    }
+
+    .approve-btn {
+      background-color: var(--success);
+      color: white;
+    }
+
+    .reject-btn {
+      background-color: var(--error);
+      color: white;
+    }
+
+    .action-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
     }
 
     footer {
-      margin-top: 3rem;
       text-align: center;
-      font-size: 0.9rem;
+      padding: 1.5rem;
+      font-size: 0.875rem;
       color: var(--text-light);
+      background-color: var(--gray-light);
+      border-top: 1px solid var(--border);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      header, nav {
+        padding: 1rem;
+      }
+      
+      main {
+        padding: 1.5rem;
+      }
+      
+      .welcome-title {
+        font-size: 1.5rem;
+      }
+      
+      nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .pending-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      
+      .pending-actions {
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logout-btn {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .header-title {
+        font-size: 1.3rem;
+      }
+      
+      .pending-actions {
+        flex-direction: column;
+        width: 100%;
+      }
+      
+      .action-btn {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
 
-  <h2>Selamat datang, Admin!</h2>
+  <header>
+    <div class="header-title">Dashboard Admin</div>
+    <a th:href="@{/logout}" class="logout-btn">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+  </header>
 
-  <section>
-    <h3>Statistik Pengajuan Surat</h3>
+  <nav>
     <ul>
-      <li>Total Pengajuan: <strong th:text="${total}">0</strong></li>
-      <li>Pengajuan Pending: <strong th:text="${pending}">0</strong></li>
-      <li>Pengajuan Disetujui: <strong th:text="${approved}">0</strong></li>
-      <li>Pengajuan Ditolak: <strong th:text="${rejected}">0</strong></li>
+      <li>
+        <a th:href="@{/admin/dashboard}">
+          <i class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
+      </li>
+      <li>
+        <a th:href="@{/admin/pengajuan/list}">
+          <i class="fas fa-list"></i> Kelola Pengajuan
+        </a>
+      </li>
+      <li>
+        <a th:href="@{/admin/mahasiswa}">
+          <i class="fas fa-users"></i> Kelola Mahasiswa
+        </a>
+      </li>
     </ul>
-  </section>
+  </nav>
 
-  <div class="nav-links">
-    <a th:href="@{/admin/pengajuan/list}">Lihat Semua Pengajuan</a>
-    <a th:href="@{/logout}">Logout</a>
-  </div>
+  <main>
+    <section class="welcome-section">
+      <h1 class="welcome-title">Selamat datang, Admin!</h1>
+      <p class="welcome-subtitle">Sistem Pengajuan Surat - Universitas XYZ</p>
+    </section>
+
+    <section class="stats-section">
+      <h2 class="stats-title">Statistik Pengajuan Surat</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total Pengajuan</div>
+          <div class="stat-value" th:text="${total}">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Pengajuan Pending</div>
+          <div class="stat-value" th:text="${pending}">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Pengajuan Disetujui</div>
+          <div class="stat-value" th:text="${approved}">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Pengajuan Ditolak</div>
+          <div class="stat-value" th:text="${rejected}">0</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="nav-links">
+      <a th:href="@{/admin/pengajuan/list}" class="nav-link">
+        <i class="fas fa-list"></i> Lihat Semua Pengajuan
+      </a>
+      <a th:href="@{/admin/mahasiswa}" class="nav-link">
+        <i class="fas fa-users"></i> Kelola Data Mahasiswa
+      </a>
+    </div>
+
+    <section class="pending-requests" th:if="${not #lists.isEmpty(pendingRequests)}">
+      <h2 class="pending-title">Pengajuan Perlu Persetujuan</h2>
+      <div class="pending-list">
+        <div class="pending-item" th:each="pengajuan : ${pendingRequests}">
+          <div class="pending-info">
+            <div class="pending-name" th:text="${pengajuan.mahasiswa.nama}">Nama Mahasiswa</div>
+            <div class="pending-type" th:text="${pengajuan.jenisSurat}">Jenis Surat</div>
+            <div class="pending-date" th:text="${#dates.format(pengajuan.tanggalPengajuan, 'dd MMMM yyyy')}">01 Januari 2025</div>
+          </div>
+          <div class="pending-actions">
+            <form th:action="@{'/admin/pengajuan/approve/' + ${pengajuan.id}}" method="post">
+              <button type="submit" class="action-btn approve-btn">
+                <i class="fas fa-check"></i> Setujui
+              </button>
+            </form>
+            <form th:action="@{'/admin/pengajuan/reject/' + ${pengajuan.id}}" method="post">
+              <button type="submit" class="action-btn reject-btn">
+                <i class="fas fa-times"></i> Tolak
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <footer>
-    &copy; 2025 Universitas XYZ. Semua hak dilindungi.
+    &copy; 2025 Sistem Pengajuan Surat. All rights reserved.
   </footer>
-
-
 </body>
 </html>

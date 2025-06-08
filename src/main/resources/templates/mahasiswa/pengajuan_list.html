@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Daftar Pengajuan Surat</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     :root {
       --text-dark: #1d1d1f;
@@ -13,9 +14,12 @@
       --blue-light: #e6f1fc;
       --white: #ffffff;
       --gray-light: #f5f5f7;
+      --success: #4caf50;
+      --warning: #ff9800;
+      --error: #f44336;
       --border: #e0e0e0;
-      --border-radius: 16px;
-      --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      --border-radius: 12px;
+      --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       --transition: all 0.3s ease;
     }
 
@@ -23,7 +27,7 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
 
     body {
@@ -42,12 +46,11 @@
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid var(--border);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      z-index: 10;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
 
     .header-title {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       font-weight: 600;
       color: var(--blue);
     }
@@ -74,7 +77,6 @@
       background-color: var(--white);
       padding: 1rem 2rem;
       border-bottom: 1px solid var(--border);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
     }
 
     nav ul {
@@ -101,6 +103,10 @@
       background-color: var(--blue-light);
     }
 
+    nav a i {
+      font-size: 1.1rem;
+    }
+
     main {
       flex: 1;
       padding: 2rem;
@@ -109,76 +115,136 @@
       width: 100%;
     }
 
-    .welcome-section {
-      background: rgba(255, 255, 255, 0.85);
-      border-radius: var(--border-radius);
-      padding: 2rem;
-      box-shadow: var(--box-shadow);
-      -webkit-backdrop-filter: blur(10px);
-      backdrop-filter: blur(10px);
+    .page-header {
       margin-bottom: 2rem;
-      transition: var(--transition);
     }
 
-    .welcome-title {
-      font-size: 1.8rem;
+    .page-title {
+      font-size: 1.75rem;
       margin-bottom: 0.5rem;
+      color: var(--text-dark);
     }
 
-    .welcome-subtitle {
+    .page-subtitle {
       color: var(--text-light);
+      font-weight: 400;
     }
 
     .action-buttons {
       margin-bottom: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
     }
 
-    .action-buttons a {
-      background-color: var(--blue);
-      color: white;
-      padding: 0.5rem 1rem;
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
       border-radius: var(--border-radius);
       text-decoration: none;
       font-weight: 500;
       transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
     }
 
-    .action-buttons a:hover {
+    .btn-primary {
+      background-color: var(--blue);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
       background-color: var(--blue-dark);
       transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 113, 227, 0.2);
+    }
+
+    .table-container {
+      overflow-x: auto;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      margin-bottom: 2rem;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      background-color: white;
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-      overflow: hidden;
-      margin-bottom: 2rem;
+      background-color: var(--white);
+      min-width: 800px;
     }
 
-    table th, table td {
-      border: 1px solid var(--border);
-      padding: 0.75rem;
+    th, td {
+      padding: 1rem;
       text-align: left;
-      font-size: 0.95rem;
+      border-bottom: 1px solid var(--border);
     }
 
-    table th {
+    th {
       background-color: var(--blue-light);
       font-weight: 600;
+      color: var(--blue-dark);
+      position: sticky;
+      top: 0;
     }
 
-    .aksi a {
+    tr:hover {
+      background-color: var(--gray-light);
+    }
+
+    .status {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .status-pending {
+      background-color: #fff3e0;
+      color: var(--warning);
+    }
+
+    .status-approved {
+      background-color: #e8f5e9;
+      color: var(--success);
+    }
+
+    .status-rejected {
+      background-color: #ffebee;
+      color: var(--error);
+    }
+
+    .action-links {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .action-link {
       color: var(--blue);
       text-decoration: none;
-      margin-right: 0.5rem;
+      font-weight: 500;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .action-link:hover {
+      color: var(--blue-dark);
+      text-decoration: underline;
+    }
+
+    .action-link i {
       font-size: 0.9rem;
     }
 
-    .aksi a:hover {
-      text-decoration: underline;
+    .empty-state {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-light);
     }
 
     footer {
@@ -191,33 +257,36 @@
       margin-top: auto;
     }
 
-    footer a {
+    .footer-link {
       color: var(--blue);
       text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
     }
 
-    footer a:hover {
+    .footer-link:hover {
+      color: var(--blue-dark);
       text-decoration: underline;
     }
 
+    /* Responsive adjustments */
     @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
+      header, nav {
+        padding: 1rem;
       }
-
-      nav ul {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-
+      
       main {
         padding: 1.5rem;
       }
-
-      .welcome-section {
-        padding: 1.5rem;
+      
+      .page-title {
+        font-size: 1.5rem;
+      }
+      
+      nav ul {
+        gap: 0.5rem;
       }
     }
 
@@ -226,9 +295,18 @@
         width: 100%;
         justify-content: center;
       }
-
+      
       .header-title {
-        font-size: 1.4rem;
+        font-size: 1.3rem;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
       }
     }
   </style>
@@ -237,28 +315,44 @@
 
 <header>
   <div class="header-title">Sistem Pengajuan Surat</div>
-  <a th:href="@{/logout}" class="logout-btn">Logout</a>
+  <a th:href="@{/logout}" class="logout-btn">
+    <i class="fas fa-sign-out-alt"></i> Logout
+  </a>
 </header>
 
 <nav>
   <ul>
-    <li><a th:href="@{/mahasiswa/dashboard}">🏠 Dashboard</a></li>
-    <li><a th:href="@{/mahasiswa/pengajuan/form}">📝 Ajukan Surat Baru</a></li>
-    <li><a th:href="@{/mahasiswa/pengajuan}">📄 Daftar Pengajuan</a></li>
+    <li>
+      <a th:href="@{/mahasiswa/dashboard}">
+        <i class="fas fa-home"></i> Dashboard
+      </a>
+    </li>
+    <li>
+      <a th:href="@{/mahasiswa/pengajuan/form}">
+        <i class="fas fa-plus-circle"></i> Ajukan Surat
+      </a>
+    </li>
+    <li>
+      <a th:href="@{/mahasiswa/pengajuan}">
+        <i class="fas fa-list"></i> Daftar Pengajuan
+      </a>
+    </li>
   </ul>
 </nav>
 
 <main>
-  <div class="welcome-section">
-    <div class="welcome-title">Daftar Pengajuan Surat</div>
-    <div class="welcome-subtitle">Selamat datang, <strong th:text="${user.nama}">Nama Mahasiswa</strong></div>
+  <div class="page-header">
+    <h1 class="page-title">Daftar Pengajuan Surat</h1>
+    <p class="page-subtitle">Selamat datang, <strong th:text="${user.nama}">Nama Mahasiswa</strong></p>
   </div>
 
   <div class="action-buttons">
-    <a th:href="@{/mahasiswa/pengajuan/form}">+ Ajukan Surat Baru</a>
+    <a th:href="@{/mahasiswa/pengajuan/form}" class="btn btn-primary">
+      <i class="fas fa-plus"></i> Ajukan Surat Baru
+    </a>
   </div>
 
-  <div style="overflow-x:auto;">
+  <div class="table-container">
     <table>
       <thead>
         <tr>
@@ -266,7 +360,7 @@
           <th>Jenis Surat</th>
           <th>Tanggal Pengajuan</th>
           <th>Status</th>
-          <th>Alasan Reject</th>
+          <th>Keterangan</th>
           <th>Aksi</th>
         </tr>
       </thead>
@@ -275,21 +369,36 @@
           <td th:text="${iterStat.index + 1}">1</td>
           <td th:text="${pengajuan.jenisSurat}">Surat Keterangan</td>
           <td th:text="${#dates.format(pengajuan.tanggalPengajuan, 'dd-MM-yyyy')}">01-01-2025</td>
-          <td th:text="${pengajuan.status}">PENDING</td>
+          <td>
+            <span th:classappend="${'status-' + pengajuan.status.name().toLowerCase()}" class="status" th:text="${pengajuan.status}">PENDING</span>
+          </td>
           <td th:text="${pengajuan.alasanReject != null ? pengajuan.alasanReject : '-'}">-</td>
-          <td class="aksi">
-            <span th:if="${pengajuan.status.name() == 'PENDING'}">
-              <a th:href="@{'/mahasiswa/pengajuan/edit/' + ${pengajuan.id}}">Edit</a>
-              <a th:href="@{'/mahasiswa/pengajuan/delete/' + ${pengajuan.id}}" onclick="return confirm('Yakin ingin menghapus pengajuan ini?')">Hapus</a>
-            </span>
-            <span th:if="${pengajuan.status.name() == 'APPROVED'}">
-              <a th:href="@{'/files/' + ${pengajuan.fileSurat}}" target="_blank">Unduh Surat</a>
-            </span>
-            <span th:if="${pengajuan.status.name() == 'REJECTED'}">-</span>
+          <td>
+            <div class="action-links">
+              <span th:if="${pengajuan.status.name() == 'PENDING'}">
+                <a th:href="@{'/mahasiswa/pengajuan/edit/' + ${pengajuan.id}}" class="action-link">
+                  <i class="fas fa-edit"></i> Edit
+                </a>
+                <a th:href="@{'/mahasiswa/pengajuan/delete/' + ${pengajuan.id}}" class="action-link" onclick="return confirm('Yakin ingin menghapus pengajuan ini?')">
+                  <i class="fas fa-trash-alt"></i> Hapus
+                </a>
+              </span>
+              <span th:if="${pengajuan.status.name() == 'APPROVED'}">
+                <a th:href="@{'/files/' + ${pengajuan.fileSurat}}" class="action-link" target="_blank">
+                  <i class="fas fa-download"></i> Unduh
+                </a>
+              </span>
+              <span th:if="${pengajuan.status.name() == 'REJECTED'}">
+                <span class="action-link" style="color: var(--text-light);">-</span>
+              </span>
+            </div>
           </td>
         </tr>
         <tr th:if="${#lists.isEmpty(daftarPengajuan)}">
-          <td colspan="6" style="text-align:center;">Belum ada pengajuan.</td>
+          <td colspan="6" class="empty-state">
+            <i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+            <p>Belum ada pengajuan surat.</p>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -297,7 +406,9 @@
 </main>
 
 <footer>
-  <a th:href="@{/mahasiswa/dashboard}">← Kembali ke Dashboard</a>
+  <a th:href="@{/mahasiswa/dashboard}" class="footer-link">
+    <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
+  </a>
 </footer>
 
 </body>

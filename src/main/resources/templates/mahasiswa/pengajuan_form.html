@@ -7,15 +7,16 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     :root {
-      --primary: #1e3a8a;
-      --primary-light: #3b82f6;
-      --background: #f9fafb;
+      --text-dark: #1d1d1f;
+      --text-light: #6e6e73;
+      --blue: #0071e3;
+      --blue-dark: #005bb5;
+      --blue-light: #e6f1fc;
       --white: #ffffff;
-      --gray: #e5e7eb;
-      --text-dark: #1f2937;
-      --text-light: #6b7280;
-      --radius: 12px;
-      --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      --gray-light: #f5f5f7;
+      --border: #e0e0e0;
+      --border-radius: 16px;
+      --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
       --transition: all 0.3s ease;
     }
 
@@ -23,57 +24,83 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     body {
-      background-color: var(--background);
+      background: linear-gradient(to right top, #e6f0ff, #ffffff);
       color: var(--text-dark);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: var(--white);
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .header-title {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--blue);
+    }
+
+    .logout-btn {
+      background-color: var(--blue);
+      color: white;
+      padding: 0.6rem 1rem;
+      border-radius: var(--border-radius);
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+    }
+
+    .logout-btn:hover {
+      background-color: var(--blue-dark);
+      transform: translateY(-2px);
+    }
+
+    main {
+      flex: 1;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: start;
       padding: 2rem;
-      min-height: 100vh;
-    }
-
-    .main-container {
-      max-width: 800px;
-      width: 100%;
-    }
-
-    .header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    .header h1 {
-      font-size: 2.2rem;
-      color: var(--primary);
-    }
-
-    .header p {
-      color: var(--text-light);
-      font-size: 1rem;
     }
 
     .form-container {
       background-color: var(--white);
-      border-radius: var(--radius);
       padding: 2rem;
-      box-shadow: var(--shadow);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      max-width: 700px;
+      width: 100%;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+    }
+
+    .form-header {
+      text-align: center;
+      margin-bottom: 2rem;
     }
 
     .form-header h2 {
-      font-size: 1.6rem;
-      color: var(--primary);
-      margin-bottom: 0.5rem;
-      text-align: center;
+      font-size: 1.8rem;
+      color: var(--blue);
     }
 
     .form-header p {
-      text-align: center;
       color: var(--text-light);
-      margin-bottom: 1.5rem;
     }
 
     .form-group {
@@ -84,7 +111,6 @@
       display: block;
       margin-bottom: 0.5rem;
       font-weight: 600;
-      color: var(--text-dark);
     }
 
     input[type="text"],
@@ -92,8 +118,8 @@
     textarea {
       width: 100%;
       padding: 0.75rem 1rem;
-      border: 1px solid var(--gray);
-      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius);
       background-color: #f3f4f6;
       font-size: 1rem;
       transition: var(--transition);
@@ -103,9 +129,9 @@
     select:focus,
     textarea:focus {
       outline: none;
-      border-color: var(--primary-light);
+      border-color: var(--blue);
       background-color: #fff;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.2);
     }
 
     textarea {
@@ -119,33 +145,34 @@
     }
 
     button[type="submit"] {
-      background: var(--primary);
+      background-color: var(--blue);
       color: var(--white);
-      border: none;
       padding: 0.75rem 1.5rem;
-      border-radius: var(--radius);
       font-size: 1rem;
       font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
+      border: none;
+      border-radius: var(--border-radius);
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      cursor: pointer;
+      transition: var(--transition);
     }
 
     button:hover {
-      background: var(--primary-light);
+      background-color: var(--blue-dark);
     }
 
     .back-link {
-      margin-top: 1.5rem;
+      margin-top: 2rem;
       text-align: center;
     }
 
     .back-link a {
-      color: var(--primary-light);
+      color: var(--blue);
       text-decoration: none;
       font-weight: 500;
+      transition: var(--transition);
     }
 
     .back-link a:hover {
@@ -159,34 +186,38 @@
       color: var(--text-light);
       background-color: var(--gray-light);
       border-top: 1px solid var(--border);
-      margin-top: auto;
     }
 
     @media (max-width: 600px) {
-      .form-container {
+      main {
         padding: 1.5rem;
       }
 
-      .header h1 {
-        font-size: 1.5rem;
+      .form-container {
+        padding: 1.5rem;
       }
     }
   </style>
 </head>
 <body>
-  <div class="main-container">
-    <div class="header">
-      <h1><i class="fas fa-file-alt"></i> Pengajuan Surat</h1>
-      <p>Ajukan surat resmi Anda dengan mudah</p>
-    </div>
 
+  <!-- Header -->
+  <header>
+    <div class="header-title">Pengajuan Surat</div>
+    <a th:href="@{/logout}" class="logout-btn">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+  </header>
+
+  <!-- Main Content -->
+  <main>
     <div class="form-container">
       <div class="form-header">
-        <h2>Form Pengajuan</h2>
+        <h2>Form Pengajuan Surat</h2>
         <p>Isi formulir berikut dengan lengkap dan benar</p>
       </div>
 
-      <form th:action="@{/mahasiswa/pengajuan/save}" method="post" id="suratForm">
+      <form th:action="@{/mahasiswa/pengajuan/save}" method="post">
         <div class="form-group">
           <label for="jenisSurat">Jenis Surat</label>
           <select name="jenisSurat" id="jenisSurat" required>
@@ -222,10 +253,11 @@
         </a>
       </div>
     </div>
-  </div>
+  </main>
 
+  <!-- Footer -->
   <footer>
-    <p>&copy; 2025 Sistem Pengajuan Surat. Dikembangkan untuk kemudahan mahasiswa</p>
+    &copy; 2025 Sistem Pengajuan Surat. All rights reserved.
   </footer>
 </body>
 </html>

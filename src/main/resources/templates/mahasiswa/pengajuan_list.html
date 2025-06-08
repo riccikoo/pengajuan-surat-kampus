@@ -11,6 +11,9 @@
       --blue: #0071e3;
       --gray-bg: #f5f5f7;
       --border: #d2d2d7;
+      --success: #28a745;
+      --danger: #dc3545;
+      --warning: #ffc107;
     }
 
     * {
@@ -21,13 +24,22 @@
     }
 
     body {
-      background-color: white;
+      background-color: var(--gray-bg);
       color: var(--text-dark);
       padding: 2rem;
     }
 
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
     h2 {
-      font-size: 1.75rem;
+      font-size: 2rem;
       margin-bottom: 1rem;
     }
 
@@ -45,8 +57,8 @@
       display: inline-block;
       background-color: var(--blue);
       color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
+      padding: 0.5rem 1.2rem;
+      border-radius: 6px;
       text-decoration: none;
       font-weight: 500;
       transition: background-color 0.2s;
@@ -71,6 +83,21 @@
 
     table th {
       background-color: #f0f0f0;
+      font-weight: 600;
+    }
+
+    .status-pending {
+      color: var(--warning);
+      font-weight: 600;
+    }
+
+    .status-approved {
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    .status-rejected {
+      color: var(--danger);
       font-weight: 600;
     }
 
@@ -104,53 +131,63 @@
 </head>
 <body>
 
-  <h2>Daftar Pengajuan Surat</h2>
+  <div class="container">
+    <h2>Daftar Pengajuan Surat</h2>
 
-  <p class="user-greeting">Selamat datang, <strong th:text="${user.nama}">Nama Mahasiswa</strong></p>
+    <p class="user-greeting">Selamat datang, <strong th:text="${user.nama}">Nama Mahasiswa</strong></p>
 
-  <div class="action-buttons">
-    <a th:href="@{/mahasiswa/pengajuan/form}">+ Ajukan Surat Baru</a>
-  </div>
+    <div class="action-buttons">
+      <a th:href="@{/mahasiswa/pengajuan/form}">+ Ajukan Surat Baru</a>
+    </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>No</th>
-        <th>Jenis Surat</th>
-        <th>Tanggal Pengajuan</th>
-        <th>Status</th>
-        <th>Alasan Reject</th>
-        <th>Aksi</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr th:each="pengajuan, iterStat : ${daftarPengajuan}">
-        <td th:text="${iterStat.index + 1}">1</td>
-        <td th:text="${pengajuan.jenisSurat}">Surat Keterangan</td>
-        <td th:text="${#dates.format(pengajuan.tanggalPengajuan, 'dd-MM-yyyy')}">01-01-2025</td>
-        <td th:text="${pengajuan.status}">PENDING</td>
-        <td th:text="${pengajuan.alasanReject != null ? pengajuan.alasanReject : '-'}">-</td>
-        <td class="aksi">
-          <span th:if="${pengajuan.status.name() == 'PENDING'}">
-            <a th:href="@{'/mahasiswa/pengajuan/edit/' + ${pengajuan.id}}">Edit</a>
-            <a th:href="@{'/mahasiswa/pengajuan/delete/' + ${pengajuan.id}}"
-              onclick="return confirm('Yakin ingin menghapus pengajuan ini?')">Hapus</a>
-          </span>
-          <span th:if="${pengajuan.status.name() == 'APPROVED'}">
-            <a th:href="@{'/files/' + ${pengajuan.fileSurat}}" target="_blank">Unduh Surat</a>
-          </span>
-          <span th:if="${pengajuan.status.name() == 'REJECTED'}">-</span>
-        </td>
-      </tr>
-      <tr th:if="${#lists.isEmpty(daftarPengajuan)}">
-        <td colspan="6" style="text-align:center;">Belum ada pengajuan.</td>
-      </tr>
-    </tbody>
-  </table>
+    <table>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Jenis Surat</th>
+          <th>Tanggal Pengajuan</th>
+          <th>Status</th>
+          <th>Alasan Reject</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="pengajuan, iterStat : ${daftarPengajuan}">
+          <td th:text="${iterStat.index + 1}">1</td>
+          <td th:text="${pengajuan.jenisSurat}">Surat Keterangan</td>
+          <td th:text="${#dates.format(pengajuan.tanggalPengajuan, 'dd-MM-yyyy')}">01-01-2025</td>
+          <td>
+            <span th:classappend=" 
+              ${pengajuan.status.name() == 'PENDING'} ? 'status-pending' :
+              ${pengajuan.status.name() == 'APPROVED'} ? 'status-approved' :
+              'status-rejected'"
+              th:text="${pengajuan.status}">
+              PENDING
+            </span>
+          </td>
+          <td th:text="${pengajuan.alasanReject != null ? pengajuan.alasanReject : '-'}">-</td>
+          <td class="aksi">
+            <span th:if="${pengajuan.status.name() == 'PENDING'}">
+              <a th:href="@{'/mahasiswa/pengajuan/edit/' + ${pengajuan.id}}">Edit</a>
+              <a th:href="@{'/mahasiswa/pengajuan/delete/' + ${pengajuan.id}}"
+                onclick="return confirm('Yakin ingin menghapus pengajuan ini?')">Hapus</a>
+            </span>
+            <span th:if="${pengajuan.status.name() == 'APPROVED'}">
+              <a th:href="@{'/files/' + ${pengajuan.fileSurat}}" target="_blank">Unduh Surat</a>
+            </span>
+            <span th:if="${pengajuan.status.name() == 'REJECTED'}">-</span>
+          </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(daftarPengajuan)}">
+          <td colspan="6" style="text-align:center;">Belum ada pengajuan.</td>
+        </tr>
+      </tbody>
+    </table>
 
-  <div class="footer-links">
-    <a th:href="@{/mahasiswa/dashboard}">← Kembali ke Dashboard</a> |
-    <a th:href="@{/logout}">Logout</a>
+    <div class="footer-links">
+      <a th:href="@{/mahasiswa/dashboard}">← Kembali ke Dashboard</a> |
+      <a th:href="@{/logout}">Logout</a>
+    </div>
   </div>
 
 </body>

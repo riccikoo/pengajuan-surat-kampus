@@ -1,44 +1,432 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="id">
 <head>
-    <title>Detail Pengajuan</title>
+    <meta charset="UTF-8">
+    <title>Detail Pengajuan - Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --text-dark: #1d1d1f;
+            --text-light: #6e6e73;
+            --blue: #0071e3;
+            --blue-dark: #005bb5;
+            --blue-light: #e6f1fc;
+            --white: #ffffff;
+            --gray-light: #f5f5f7;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --error: #f44336;
+            --border: #e0e0e0;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: var(--white);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--white);
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--blue);
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: var(--blue);
+            color: white;
+            padding: 0.6rem 1rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .logout-btn:hover {
+            background-color: var(--blue-dark);
+            transform: translateY(-2px);
+        }
+
+        nav {
+            background-color: var(--white);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        nav a:hover {
+            color: var(--blue);
+            background-color: var(--blue-light);
+        }
+
+        nav a i {
+            font-size: 1.1rem;
+        }
+
+        main {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .detail-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 2rem;
+        }
+
+        .detail-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .detail-value {
+            color: var(--text-dark);
+        }
+
+        .status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: #fff3e0;
+            color: var(--warning);
+        }
+
+        .status-approved {
+            background-color: #e8f5e9;
+            color: var(--success);
+        }
+
+        .status-rejected {
+            background-color: #ffebee;
+            color: var(--error);
+        }
+
+        .action-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            background-color: var(--gray-light);
+        }
+
+        .action-title {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        input[type="file"], textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        input[type="file"]:focus, textarea:focus {
+            border-color: var(--blue);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.2);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background-color: var(--blue);
+            color: var(--white);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: var(--white);
+        }
+
+        .btn-danger {
+            background-color: var(--error);
+            color: var(--white);
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .pdf-viewer {
+            width: 100%;
+            height: 600px;
+            border: 1px solid var(--border);
+            border-radius: var(--border-radius);
+            margin: 1rem 0;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--blue);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .back-link:hover {
+            color: var(--blue-dark);
+            text-decoration: underline;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            header, nav {
+                padding: 1rem;
+            }
+            
+            main {
+                padding: 1.5rem;
+            }
+            
+            .page-title {
+                font-size: 1.5rem;
+            }
+            
+            nav ul {
+                gap: 0.5rem;
+            }
+            
+            .detail-card {
+                padding: 1.5rem;
+            }
+            
+            .pdf-viewer {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logout-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .header-title {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
 </head>
 <body>
-<h2>Detail Pengajuan</h2>
 
-<p><strong>Mahasiswa:</strong> [[${pengajuan.mahasiswa.nama}]]</p>
-<p><strong>Jenis Surat:</strong> [[${pengajuan.jenisSurat}]]</p>
-<p><strong>Status:</strong> [[${pengajuan.status}]]</p>
+    <header>
+        <div class="header-title">Detail Pengajuan</div>
+        <a th:href="@{/logout}" class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </header>
 
-<div th:if="${pengajuan.status.name() == 'PENDING'}">
-    <form th:action="@{/admin/pengajuan/upload/{id}(id=${pengajuan.id})}" method="post" enctype="multipart/form-data">
-        <label>Upload Surat (PDF):</label>
-        <input type="file" name="file" accept=".pdf" required/><br/>
-        <button type="submit">Upload & Approve</button>
-    </form>
+    <nav>
+        <ul>
+            <li>
+                <a th:href="@{/admin/dashboard}">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/admin/pengajuan/list}">
+                    <i class="fas fa-list"></i> Daftar Pengajuan
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/admin/mahasiswa}">
+                    <i class="fas fa-users"></i> Kelola Mahasiswa
+                </a>
+            </li>
+        </ul>
+    </nav>
 
-    <hr/>
+    <main>
+        <div class="page-header">
+            <h1 class="page-title">Detail Pengajuan Surat</h1>
+        </div>
 
-    <form th:action="@{/admin/pengajuan/reject/{id}(id=${pengajuan.id})}" method="post">
-        <label>Alasan Penolakan:</label><br/>
-        <textarea name="alasanReject" rows="3" cols="40" required></textarea><br/>
-        <button type="submit">Tolak Pengajuan</button>
-    </form>
-</div>
+        <div class="detail-card">
+            <div class="detail-item">
+                <span class="detail-label">Mahasiswa</span>
+                <span class="detail-value" th:text="${pengajuan.mahasiswa.nama}">Nama Mahasiswa</span>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">Jenis Surat</span>
+                <span class="detail-value" th:text="${pengajuan.jenisSurat}">Jenis Surat</span>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">Status</span>
+                <span th:classappend="${'status-' + pengajuan.status.name().toLowerCase()}" 
+                      class="status" 
+                      th:text="${pengajuan.status}">Status</span>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">Tanggal Pengajuan</span>
+                <span class="detail-value" th:text="${#dates.format(pengajuan.tanggalPengajuan, 'dd MMMM yyyy HH:mm')}">01 Januari 2025</span>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">Keperluan</span>
+                <span class="detail-value" th:text="${pengajuan.keperluan}">Keperluan</span>
+            </div>
 
-<div th:if="${pengajuan.status.name() == 'APPROVED'}">
-    <p><strong>Surat Disetujui:</strong></p>
-    <!-- Tampilkan langsung PDF di dalam halaman -->
-    <iframe th:src="@{'/files/' + ${pengajuan.fileSurat}}" width="100%" height="600px" style="border:1px solid #ccc;">
-        Browser tidak mendukung PDF.
-    </iframe>
-    <p><a th:href="@{'/files/' + ${pengajuan.fileSurat}}" target="_blank">Unduh Surat</a></p>
-</div>
+            <div th:if="${pengajuan.status.name() == 'PENDING'}">
+                <div class="action-section">
+                    <h3 class="action-title">Persetujuan Pengajuan</h3>
+                    
+                    <form th:action="@{/admin/pengajuan/upload/{id}(id=${pengajuan.id})}" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="file">Upload Surat (PDF)</label>
+                            <input type="file" id="file" name="file" accept=".pdf" required/>
+                        </div>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-check"></i> Approve & Upload
+                        </button>
+                    </form>
 
-<div th:if="${pengajuan.status.name() == 'REJECTED'}">
-    <p><strong>Ditolak karena:</strong> [[${pengajuan.alasanReject}]]</p>
-</div>
+                    <hr style="margin: 1.5rem 0; border-color: var(--border);"/>
 
-<a th:href="@{/admin/pengajuan/list}">Kembali ke daftar</a>
+                    <form th:action="@{/admin/pengajuan/reject/{id}(id=${pengajuan.id})}" method="post">
+                        <div class="form-group">
+                            <label for="alasanReject">Alasan Penolakan</label>
+                            <textarea id="alasanReject" name="alasanReject" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-times"></i> Tolak Pengajuan
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div th:if="${pengajuan.status.name() == 'APPROVED'}">
+                <div class="detail-item">
+                    <span class="detail-label">Surat Disetujui</span>
+                    <div class="pdf-viewer">
+                        <iframe th:src="@{'/files/' + ${pengajuan.fileSurat}}" width="100%" height="100%" style="border:none;">
+                            Browser tidak mendukung PDF.
+                        </iframe>
+                    </div>
+                    <a th:href="@{'/files/' + ${pengajuan.fileSurat}}" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-download"></i> Unduh Surat
+                    </a>
+                </div>
+            </div>
+
+            <div th:if="${pengajuan.status.name() == 'REJECTED'}">
+                <div class="detail-item">
+                    <span class="detail-label">Alasan Penolakan</span>
+                    <span class="detail-value" th:text="${pengajuan.alasanReject}">Alasan</span>
+                </div>
+            </div>
+        </div>
+
+        <a th:href="@{/admin/pengajuan/list}" class="back-link">
+            <i class="fas fa-arrow-left"></i> Kembali ke Daftar Pengajuan
+        </a>
+    </main>
+
+    <footer style="text-align: center; padding: 1.5rem; font-size: 0.875rem; color: var(--text-light); background-color: var(--gray-light); border-top: 1px solid var(--border);">
+        &copy; 2025 Sistem Pengajuan Surat. All rights reserved.
+    </footer>
+
 </body>
 </html>

@@ -70,6 +70,41 @@
       transform: translateY(-2px);
     }
 
+    nav {
+      background-color: var(--white);
+      padding: 1rem 2rem;
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-dark);
+      font-weight: 500;
+      transition: var(--transition);
+      padding: 0.75rem 1rem;
+      border-radius: var(--border-radius);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    nav a:hover {
+      color: var(--blue);
+      background-color: var(--blue-light);
+    }
+
+    nav a i {
+      font-size: 1.1rem;
+    }
+
     main {
       flex: 1;
       display: flex;
@@ -203,7 +238,23 @@
 
   <!-- Header -->
   <header>
-    <div class="header-title">Pengajuan Surat</div>
+      <nav>
+        <ul>
+          <li>
+            <div class="header-title">Pengajuan Surat</div>
+          </li>
+          <li>
+            <a th:href="@{/mahasiswa/pengajuan/form}">
+                  <i class="fas fa-plus-circle"></i> Ajukan Surat Baru
+            </a>
+          </li>
+          <li>
+            <a th:href="@{/mahasiswa/pengajuan/list}">
+              <i class="fas fa-list"></i> Lihat Pengajuan Saya
+            </a>
+          </li>
+        </ul>
+      </nav>
     <a th:href="@{/logout}" class="logout-btn">
       <i class="fas fa-sign-out-alt"></i> Logout
     </a>
@@ -226,7 +277,8 @@
             <option value="RISET">Surat Riset</option>
             <option value="CUTI">Surat Cuti</option>
             <option value="REKOMENDASI">Surat Rekomendasi</option>
-            <option value="IZIN_PENELITIAN">Surat Izin Penelitian</option>
+            <option value="DISPENSASI">Surat Dispensasi</option>
+            <option value="PKL_MAGANG">Surat PKL/ Magang></option>
           </select>
         </div>
 

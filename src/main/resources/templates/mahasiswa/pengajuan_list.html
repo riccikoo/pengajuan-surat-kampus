@@ -223,6 +223,8 @@
     }
 
     .action-link {
+      display: flex;
+      justify-content: center;
       color: var(--blue);
       text-decoration: none;
       font-weight: 500;
@@ -309,36 +311,41 @@
         justify-content: center;
       }
     }
+    /* Centers text in all table headers and data cells */
+    th, td {
+        text-align: center;
+    }
+
+    /* Or for specific columns, create classes */
+    .center-column {
+        text-align: center;
+    }
   </style>
 </head>
 <body>
 
 <header>
-  <div class="header-title">Sistem Pengajuan Surat</div>
-  <a th:href="@{/logout}" class="logout-btn">
-    <i class="fas fa-sign-out-alt"></i> Logout
-  </a>
-</header>
-
-<nav>
-  <ul>
-    <li>
-      <a th:href="@{/mahasiswa/dashboard}">
-        <i class="fas fa-home"></i> Dashboard
-      </a>
-    </li>
-    <li>
-      <a th:href="@{/mahasiswa/pengajuan/form}">
-        <i class="fas fa-plus-circle"></i> Ajukan Surat
-      </a>
-    </li>
-    <li>
-      <a th:href="@{/mahasiswa/pengajuan/list}">
-        <i class="fas fa-list"></i> Daftar Pengajuan
-      </a>
-    </li>
-  </ul>
-</nav>
+      <nav>
+        <ul>
+          <li>
+            <div class="header-title">Pengajuan Surat</div>
+          </li>
+          <li>
+            <a th:href="@{/mahasiswa/pengajuan/form}">
+                  <i class="fas fa-plus-circle"></i> Ajukan Surat Baru
+            </a>
+          </li>
+          <li>
+            <a th:href="@{/mahasiswa/pengajuan/list}">
+              <i class="fas fa-list"></i> Lihat Pengajuan Saya
+            </a>
+          </li>
+        </ul>
+      </nav>
+    <a th:href="@{/logout}" class="logout-btn">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+  </header>
 
 <main>
   <div class="page-header">

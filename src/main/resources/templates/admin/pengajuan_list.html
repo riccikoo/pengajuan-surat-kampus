@@ -303,28 +303,25 @@
 </head>
 <body>
 
-    <header>
-        <div class="header-title">Daftar Pengajuan Surat</div>
-        <a th:href="@{/logout}" class="logout-btn">
-            <i class="fas fa-sign-out-alt"></i> Logout
-        </a>
-    </header>
-
-    <nav>
-        <ul>
-            <li>
-                <a th:href="@{/admin/dashboard}">
-                    <i class="fas fa-tachometer-alt"></i> Dashboard
-                </a>
-            </li>
-            <li>
-                <a th:href="@{/admin/pengajuan/list}">
-                    <i class="fas fa-list"></i> Daftar Pengajuan
-                </a>
-            </li>
-            <li>
-        </ul>
+  <header>
+      <nav>
+      <ul>
+        <li>
+          <a th:href="@{/admin/dashboard}">
+            <div class="header-title">Pengajuan Surat Admin</div>
+          </a>
+        </li>
+        <li style="margin-top: 0.5rem;">
+          <a th:href="@{/admin/pengajuan/list}">
+            <i class="fas fa-list"></i> Kelola Pengajuan
+          </a>
+        </li>
+      </ul>
     </nav>
+    <a th:href="@{/logout}" class="logout-btn">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+  </header>
 
     <main>
         <div class="page-header">
@@ -366,11 +363,6 @@
                                 <a th:href="@{/admin/pengajuan/detail/{id}(id=${pengajuan.id})}" class="action-link">
                                     <i class="fas fa-eye"></i> Detail
                                 </a>
-                                <span th:if="${pengajuan.status.name() == 'PENDING'}">
-                                    <a th:href="@{/admin/pengajuan/edit/{id}(id=${pengajuan.id})}" class="action-link">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </a>
-                                </span>
                             </div>
                         </td>
                     </tr>

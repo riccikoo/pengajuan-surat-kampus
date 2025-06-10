@@ -220,27 +220,27 @@
 
   <!-- Header -->
   <header>
-    <div class="header-title">Dashboard Mahasiswa</div>
+      <nav>
+        <ul>
+          <li>
+            <div class="header-title">Pengajuan Surat</div>
+          </li>
+          <li>
+            <a th:href="@{/mahasiswa/pengajuan/form}">
+                  <i class="fas fa-plus-circle"></i> Ajukan Surat Baru
+            </a>
+          </li>
+          <li>
+            <a th:href="@{/mahasiswa/pengajuan/list}">
+              <i class="fas fa-list"></i> Lihat Pengajuan Saya
+            </a>
+          </li>
+        </ul>
+      </nav>
     <a th:href="@{/logout}" class="logout-btn">
       <i class="fas fa-sign-out-alt"></i> Logout
     </a>
   </header>
-
-  <!-- Navbar -->
-  <nav>
-    <ul>
-      <li>
-        <a th:href="@{/mahasiswa/pengajuan/form}">
-          <i class="fas fa-plus-circle"></i> Ajukan Surat Baru
-        </a>
-      </li>
-      <li>
-        <a th:href="@{/mahasiswa/pengajuan/list}">
-          <i class="fas fa-list"></i> Lihat Pengajuan Saya
-        </a>
-      </li>
-    </ul>
-  </nav>
 
   <!-- Konten Utama -->
   <main>
